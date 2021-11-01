@@ -44,6 +44,16 @@ public class HelloWorldRoute extends RouteBuilder {
                 .log("Copying ${in.header.CamelFileName}")
                 .to("file:out")
 //                .bean(timeService)
-                .log("Finished copying ${in.header.CamelFileName}");
+                .log("Finished copying ${in.header.CamelFileName}")
+                .choice()
+                .when(exchangeProperty("CamelBatchComplete"))
+                .process(new Processor() {
+                    @Override
+                    public void process(Exchange exchange) throws Exception {
+                        log.info("Batch job finished.");
+                        exchange.getContext().stop();
+                    }
+                })
+                .end();
     }
 }

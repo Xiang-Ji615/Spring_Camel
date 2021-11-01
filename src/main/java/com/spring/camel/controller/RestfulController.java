@@ -32,6 +32,7 @@ public class RestfulController {
         camelContext = new DefaultCamelContext();
         camelContext.addRoutes(new HelloWorldRoute());
         camelContext.start();
+        camelContext.getShutdownStrategy().setTimeout(2);
         return "OK";
     }
 
