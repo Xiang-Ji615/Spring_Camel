@@ -14,7 +14,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Component
+//@Component
 public class HelloWorldRoute extends RouteBuilder {
 
     @Autowired
@@ -31,19 +31,19 @@ public class HelloWorldRoute extends RouteBuilder {
                 .threads(Thread.activeCount(), Thread.activeCount(), "myThread")
                 .process(e -> {
                         String fileName = e.getIn().getBody(File.class).getName();
-                        if (new File(fileName).exists()) {
-                            //Compute alternative name
-                            e.getIn().setHeader("CamelFileName",
-                                    fileName + UUID.randomUUID().toString());
-                        } else {
-                            e.getIn().setHeader("CamelFileName", fileName);
-                        }
+//                        if (new File(fileName).exists()) {
+//                            //Compute alternative name
+//                            e.getIn().setHeader("CamelFileName",
+//                                    fileName + UUID.randomUUID().toString());
+//                        } else {
+//                            e.getIn().setHeader("CamelFileName", fileName);
+//                        }
                         log.info("File anme : " + fileName );
                      }
                  )
                 .log("Copying ${in.header.CamelFileName}")
                 .to("file:out")
-                .bean(timeService)
+//                .bean(timeService)
                 .log("Finished copying ${in.header.CamelFileName}");
     }
 }
